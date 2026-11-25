@@ -32,12 +32,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-final class EnrollStudentShould {
+final class StudentEnrollerShould {
 
     private CourseRepository     courseRepository;
     private StudentLookup        studentLookup;
     private EnrollmentRepository enrollmentRepository;
-    private EnrollStudent        enroller;
+    private StudentEnroller      enroller;
 
     private EnrollmentId enrollmentId;
     private StudentId    studentId;
@@ -48,7 +48,7 @@ final class EnrollStudentShould {
         courseRepository     = mock(CourseRepository.class);
         studentLookup        = mock(StudentLookup.class);
         enrollmentRepository = mock(EnrollmentRepository.class);
-        enroller             = new EnrollStudent(
+        enroller             = new StudentEnroller(
             courseRepository,
             studentLookup,
             enrollmentRepository,

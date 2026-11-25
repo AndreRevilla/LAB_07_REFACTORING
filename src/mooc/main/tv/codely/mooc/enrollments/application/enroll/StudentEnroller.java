@@ -11,13 +11,13 @@ import tv.codely.mooc.enrollments.domain.StudentLookup;
 import tv.codely.mooc.students.domain.StudentId;
 import tv.codely.mooc.students.domain.StudentNotExist;
 
-public final class EnrollStudent {
+public final class StudentEnroller {
     private final CourseRepository     courseRepository;
     private final StudentLookup        studentLookup;
     private final EnrollmentRepository enrollmentRepository;
     private final EnrollmentPolicy     policy;
 
-    public EnrollStudent(
+    public StudentEnroller(
         CourseRepository courseRepository,
         StudentLookup studentLookup,
         EnrollmentRepository enrollmentRepository,
