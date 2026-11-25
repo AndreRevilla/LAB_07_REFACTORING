@@ -25,7 +25,7 @@ final class InMemoryEnrollmentRepositoryShould {
     }
 
     @Test
-    void return_all_enrollments_of_a_student() {
+    void shouldReturnAllEnrollmentsOfAStudent() {
         // Arrange
         repository.save(EnrollmentMother.forStudent(studentId));
         repository.save(EnrollmentMother.forStudent(studentId));
@@ -38,7 +38,7 @@ final class InMemoryEnrollmentRepositoryShould {
     }
 
     @Test
-    void return_empty_list_when_student_has_no_enrollments() {
+    void shouldReturnEmptyListWhenStudentHasNoEnrollments() {
         // Act
         List<Enrollment> result = repository.searchByStudent(StudentIdMother.random());
 
@@ -47,7 +47,7 @@ final class InMemoryEnrollmentRepositoryShould {
     }
 
     @Test
-    void return_only_enrollments_of_that_student() {
+    void shouldReturnOnlyEnrollmentsOfThatStudent() {
         // Arrange
         Enrollment own = EnrollmentMother.forStudent(studentId);
         repository.save(own);
@@ -61,7 +61,7 @@ final class InMemoryEnrollmentRepositoryShould {
     }
 
     @Test
-    void not_expose_its_internal_storage() {
+    void shouldNotExposeItsInternalStorage() {
         // Arrange
         repository.save(EnrollmentMother.forStudent(studentId));
         List<Enrollment> result = repository.searchByStudent(studentId);

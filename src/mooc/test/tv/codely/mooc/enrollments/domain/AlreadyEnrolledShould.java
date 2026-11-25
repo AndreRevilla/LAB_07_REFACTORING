@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class AlreadyEnrolledShould {
 
     @Test
-    void be_a_domain_error_with_its_own_error_code() {
+    void shouldBeADomainErrorWithItsOwnErrorCode() {
         // Arrange
         StudentId studentId = StudentIdMother.random();
         CourseId  courseId  = CourseIdMother.random();
@@ -27,7 +27,7 @@ final class AlreadyEnrolledShould {
     }
 
     @Test
-    void describe_the_student_and_the_course() {
+    void shouldDescribeTheStudentAndTheCourse() {
         // Arrange
         StudentId studentId = StudentIdMother.random();
         CourseId  courseId  = CourseIdMother.random();

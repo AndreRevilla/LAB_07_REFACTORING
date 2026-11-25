@@ -61,7 +61,7 @@ final class StudentEnrollerShould {
     }
 
     @Test
-    void enroll_student_when_course_and_student_exist() {
+    void shouldEnrollStudentWhenCourseAndStudentExist() {
         // Arrange
         givenCourseExists();
         givenStudentExists();
@@ -80,7 +80,7 @@ final class StudentEnrollerShould {
     }
 
     @Test
-    void fail_when_course_does_not_exist() {
+    void shouldFailWhenCourseDoesNotExist() {
         // Arrange
         when(courseRepository.search(courseId)).thenReturn(Optional.empty());
 
@@ -90,7 +90,7 @@ final class StudentEnrollerShould {
     }
 
     @Test
-    void fail_when_student_does_not_exist() {
+    void shouldFailWhenStudentDoesNotExist() {
         // Arrange
         givenCourseExists();
         when(studentLookup.exists(studentId)).thenReturn(false);
@@ -101,7 +101,7 @@ final class StudentEnrollerShould {
     }
 
     @Test
-    void fail_when_student_is_already_enrolled() {
+    void shouldFailWhenStudentIsAlreadyEnrolled() {
         // Arrange
         givenCourseExists();
         givenStudentExists();

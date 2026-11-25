@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class EnrollmentShould {
 
     @Test
-    void be_created_with_valid_data() {
+    void shouldBeCreatedWithValidData() {
         // Arrange
         EnrollmentId id        = EnrollmentIdMother.random();
         StudentId    studentId = StudentIdMother.random();
@@ -30,7 +30,7 @@ final class EnrollmentShould {
     }
 
     @Test
-    void fail_when_id_is_null() {
+    void shouldFailWhenIdIsNull() {
         // Arrange
         StudentId studentId = StudentIdMother.random();
         CourseId  courseId  = CourseIdMother.random();
@@ -40,7 +40,7 @@ final class EnrollmentShould {
     }
 
     @Test
-    void fail_when_student_id_is_null() {
+    void shouldFailWhenStudentIdIsNull() {
         // Arrange
         EnrollmentId id       = EnrollmentIdMother.random();
         CourseId     courseId = CourseIdMother.random();
@@ -50,7 +50,7 @@ final class EnrollmentShould {
     }
 
     @Test
-    void fail_when_course_id_is_null() {
+    void shouldFailWhenCourseIdIsNull() {
         // Arrange
         EnrollmentId id        = EnrollmentIdMother.random();
         StudentId    studentId = StudentIdMother.random();
@@ -60,7 +60,7 @@ final class EnrollmentShould {
     }
 
     @Test
-    void match_same_student_and_same_course() {
+    void shouldMatchSameStudentAndSameCourse() {
         // Arrange
         StudentId  studentId  = StudentIdMother.random();
         CourseId   courseId   = CourseIdMother.random();
@@ -74,7 +74,7 @@ final class EnrollmentShould {
     }
 
     @Test
-    void not_match_a_different_student() {
+    void shouldNotMatchADifferentStudent() {
         // Arrange
         CourseId   courseId   = CourseIdMother.random();
         Enrollment enrollment = EnrollmentMother.of(StudentIdMother.random(), courseId);
@@ -87,7 +87,7 @@ final class EnrollmentShould {
     }
 
     @Test
-    void not_match_a_different_course() {
+    void shouldNotMatchADifferentCourse() {
         // Arrange
         StudentId  studentId  = StudentIdMother.random();
         Enrollment enrollment = EnrollmentMother.of(studentId, CourseIdMother.random());
@@ -100,7 +100,7 @@ final class EnrollmentShould {
     }
 
     @Test
-    void belong_to_its_student() {
+    void shouldBelongToItsStudent() {
         // Arrange
         StudentId  studentId  = StudentIdMother.random();
         Enrollment enrollment = EnrollmentMother.forStudent(studentId);

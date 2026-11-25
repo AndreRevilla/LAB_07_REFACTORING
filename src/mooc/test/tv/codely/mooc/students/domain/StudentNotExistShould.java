@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class StudentNotExistShould {
 
     @Test
-    void be_a_domain_error_with_its_own_error_code() {
+    void shouldBeADomainErrorWithItsOwnErrorCode() {
         // Arrange
         StudentId studentId = StudentIdMother.random();
 

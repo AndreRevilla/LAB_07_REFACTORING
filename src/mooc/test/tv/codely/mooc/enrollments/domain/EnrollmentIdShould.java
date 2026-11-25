@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 final class EnrollmentIdShould {
 
     @Test
-    void be_created_from_a_valid_uuid() {
+    void shouldBeCreatedFromAValidUuid() {
         // Arrange
         String uuid = UuidMother.random();
 
@@ -21,7 +21,7 @@ final class EnrollmentIdShould {
     }
 
     @Test
-    void reject_a_value_that_is_not_a_uuid() {
+    void shouldRejectAValueThatIsNotAUuid() {
         // Arrange
         String invalidValue = "e1";
 
@@ -30,7 +30,7 @@ final class EnrollmentIdShould {
     }
 
     @Test
-    void be_equal_to_another_id_with_the_same_value() {
+    void shouldBeEqualToAnotherIdWithTheSameValue() {
         // Arrange
         String uuid = UuidMother.random();
 

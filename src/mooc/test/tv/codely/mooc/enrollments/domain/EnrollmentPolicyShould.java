@@ -24,7 +24,7 @@ final class EnrollmentPolicyShould {
     }
 
     @Test
-    void allow_first_enrollment() {
+    void shouldAllowFirstEnrollment() {
         // Arrange
         List<Enrollment> existing = List.of();
         CourseId         courseId = CourseIdMother.random();
@@ -34,7 +34,7 @@ final class EnrollmentPolicyShould {
     }
 
     @Test
-    void reject_duplicate_enrollment() {
+    void shouldRejectDuplicateEnrollment() {
         // Arrange
         CourseId         courseId = CourseIdMother.random();
         List<Enrollment> existing = List.of(EnrollmentMother.of(studentId, courseId));
@@ -44,7 +44,7 @@ final class EnrollmentPolicyShould {
     }
 
     @Test
-    void allow_same_student_in_another_course() {
+    void shouldAllowSameStudentInAnotherCourse() {
         // Arrange
         List<Enrollment> existing    = List.of(EnrollmentMother.of(studentId, CourseIdMother.random()));
         CourseId         otherCourse = CourseIdMother.random();
