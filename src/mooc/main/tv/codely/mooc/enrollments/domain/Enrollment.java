@@ -1,23 +1,17 @@
 package tv.codely.mooc.enrollments.domain;
 
 import tv.codely.mooc.courses.domain.CourseId;
+import tv.codely.mooc.students.domain.StudentId;
 
 public final class Enrollment {
-    private final String   id;
-    private final String   studentId;
-    private final CourseId courseId;
+    private final EnrollmentId id;
+    private final StudentId    studentId;
+    private final CourseId     courseId;
 
-    public Enrollment(String id, String studentId, CourseId courseId) {
-        this.id        = requireNotBlank(id, "id");
-        this.studentId = requireNotBlank(studentId, "studentId");
+    public Enrollment(EnrollmentId id, StudentId studentId, CourseId courseId) {
+        this.id        = requireNotNull(id, "id");
+        this.studentId = requireNotNull(studentId, "studentId");
         this.courseId  = requireNotNull(courseId, "courseId");
-    }
-
-    private static String requireNotBlank(String value, String field) {
-        if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException(field + " cannot be empty.");
-        }
-        return value;
     }
 
     private static <T> T requireNotNull(T value, String field) {
@@ -27,11 +21,11 @@ public final class Enrollment {
         return value;
     }
 
-    public String id() {
+    public EnrollmentId id() {
         return id;
     }
 
-    public String studentId() {
+    public StudentId studentId() {
         return studentId;
     }
 
@@ -39,7 +33,11 @@ public final class Enrollment {
         return courseId;
     }
 
-    public boolean matches(String studentId, CourseId courseId) {
-        return this.studentId.equals(studentId) && this.courseId.equals(courseId);
+    public boolean belongsTo(StudentId studentId) {
+        return this.studentId.equals(studentId);
+    }
+
+    public boolean matches(StudentId studentId, CourseId courseId) {
+        return belongsTo(studentId) && this.courseId.equals(courseId);
     }
 }

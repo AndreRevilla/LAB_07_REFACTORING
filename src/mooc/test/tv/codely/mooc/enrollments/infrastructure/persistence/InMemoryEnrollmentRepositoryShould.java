@@ -2,8 +2,10 @@ package tv.codely.mooc.enrollments.infrastructure.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import tv.codely.mooc.courses.domain.CourseIdMother;
 import tv.codely.mooc.enrollments.domain.Enrollment;
+import tv.codely.mooc.enrollments.domain.EnrollmentMother;
+import tv.codely.mooc.students.domain.StudentId;
+import tv.codely.mooc.students.domain.StudentIdMother;
 
 import java.util.List;
 
@@ -12,46 +14,48 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 final class InMemoryEnrollmentRepositoryShould {
 
-    private static final String STUDENT_ID       = "s1";
-    private static final String OTHER_STUDENT_ID = "s2";
-    private static final String UNKNOWN_STUDENT  = "s9";
-
     private InMemoryEnrollmentRepository repository;
+    private StudentId                    studentId;
 
     @BeforeEach
     void setUp() {
         repository = new InMemoryEnrollmentRepository();
+        studentId  = StudentIdMother.random();
     }
 
     @Test
     void return_all_enrollments_of_a_student() {
-        repository.save(enrollmentOf("e1", STUDENT_ID));
-        repository.save(enrollmentOf("e2", STUDENT_ID));
+        // Arrange
+        repository.save(EnrollmentMother.forStudent(studentId));
+        repository.save(EnrollmentMother.forStudent(studentId));
 
-        List<Enrollment> result = repository.searchByStudent(STUDENT_ID);
+        // Act
+        List<Enrollment> result = repository.searchByStudent(studentId);
 
+        // Assert
         assertEquals(2, result.size());
     }
 
     @Test
     void return_empty_list_when_student_has_no_enrollments() {
-        List<Enrollment> result = repository.searchByStudent(UNKNOWN_STUDENT);
+        // Act
+        List<Enrollment> result = repository.searchByStudent(StudentIdMother.random());
 
+        // Assert
         assertTrue(result.isEmpty());
     }
 
     @Test
     void return_only_enrollments_of_that_student() {
-        repository.save(enrollmentOf("e1", STUDENT_ID));
-        repository.save(enrollmentOf("e2", OTHER_STUDENT_ID));
+        // Arrange
+        Enrollment own = EnrollmentMother.forStudent(studentId);
+        repository.save(own);
+        repository.save(EnrollmentMother.random());
 
-        List<Enrollment> result = repository.searchByStudent(STUDENT_ID);
+        // Act
+        List<Enrollment> result = repository.searchByStudent(studentId);
 
-        assertEquals(1, result.size());
-        assertEquals(STUDENT_ID, result.get(0).studentId());
-    }
-
-    private Enrollment enrollmentOf(String enrollmentId, String studentId) {
-        return new Enrollment(enrollmentId, studentId, CourseIdMother.random());
+        // Assert
+        assertEquals(List.of(own), result);
     }
 }

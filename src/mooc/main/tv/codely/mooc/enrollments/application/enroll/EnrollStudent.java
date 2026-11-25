@@ -4,10 +4,12 @@ import tv.codely.mooc.courses.domain.CourseId;
 import tv.codely.mooc.courses.domain.CourseNotExist;
 import tv.codely.mooc.courses.domain.CourseRepository;
 import tv.codely.mooc.enrollments.domain.Enrollment;
+import tv.codely.mooc.enrollments.domain.EnrollmentId;
 import tv.codely.mooc.enrollments.domain.EnrollmentPolicy;
 import tv.codely.mooc.enrollments.domain.EnrollmentRepository;
 import tv.codely.mooc.enrollments.domain.StudentLookup;
 import tv.codely.mooc.enrollments.domain.StudentNotExist;
+import tv.codely.mooc.students.domain.StudentId;
 
 public final class EnrollStudent {
     private final CourseRepository     courseRepository;
@@ -27,7 +29,7 @@ public final class EnrollStudent {
         this.policy               = policy;
     }
 
-    public void enroll(String enrollmentId, String studentId, CourseId courseId) {
+    public void enroll(EnrollmentId enrollmentId, StudentId studentId, CourseId courseId) {
         ensureCourseExists(courseId);
         ensureStudentExists(studentId);
         ensureNotAlreadyEnrolled(studentId, courseId);
@@ -40,13 +42,13 @@ public final class EnrollStudent {
             .orElseThrow(() -> new CourseNotExist(courseId));
     }
 
-    private void ensureStudentExists(String studentId) {
+    private void ensureStudentExists(StudentId studentId) {
         if (!studentLookup.exists(studentId)) {
             throw new StudentNotExist(studentId);
         }
     }
 
-    private void ensureNotAlreadyEnrolled(String studentId, CourseId courseId) {
+    private void ensureNotAlreadyEnrolled(StudentId studentId, CourseId courseId) {
         policy.ensureNotEnrolled(
             enrollmentRepository.searchByStudent(studentId),
             studentId,
