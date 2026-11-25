@@ -2,10 +2,10 @@ package tv.codely.mooc.enrollments.infrastructure.persistence;
 
 import tv.codely.mooc.enrollments.domain.Enrollment;
 import tv.codely.mooc.enrollments.domain.EnrollmentRepository;
+import tv.codely.mooc.students.domain.StudentId;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class InMemoryEnrollmentRepository implements EnrollmentRepository {
     private final List<Enrollment> storage = new ArrayList<>();
@@ -16,13 +16,9 @@ public final class InMemoryEnrollmentRepository implements EnrollmentRepository 
     }
 
     @Override
-    public List<Enrollment> searchByStudent(String studentId) {
+    public List<Enrollment> searchByStudent(StudentId studentId) {
         return storage.stream()
-            .filter(enrollment -> belongsTo(enrollment, studentId))
-            .collect(Collectors.toList());
-    }
-
-    private boolean belongsTo(Enrollment enrollment, String studentId) {
-        return enrollment.studentId().equals(studentId);
+            .filter(enrollment -> enrollment.belongsTo(studentId))
+            .toList();
     }
 }

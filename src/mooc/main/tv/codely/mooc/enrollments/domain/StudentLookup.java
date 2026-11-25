@@ -1,5 +1,7 @@
 package tv.codely.mooc.enrollments.domain;
 
+import tv.codely.mooc.students.domain.StudentId;
+
 public interface StudentLookup {
-    boolean exists(String studentId);
+    boolean exists(StudentId studentId);
 }

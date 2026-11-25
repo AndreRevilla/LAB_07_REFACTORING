@@ -3,6 +3,8 @@ package tv.codely.mooc.enrollments.domain;
 import org.junit.jupiter.api.Test;
 import tv.codely.mooc.courses.domain.CourseId;
 import tv.codely.mooc.courses.domain.CourseIdMother;
+import tv.codely.mooc.students.domain.StudentId;
+import tv.codely.mooc.students.domain.StudentIdMother;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -12,69 +14,99 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 final class EnrollmentShould {
 
     @Test
-    void be_created_with_valid_data() {
+    void shouldBeCreatedWithValidData() {
         // Arrange
-        CourseId courseId = CourseIdMother.random();
+        EnrollmentId id        = EnrollmentIdMother.random();
+        StudentId    studentId = StudentIdMother.random();
+        CourseId     courseId  = CourseIdMother.random();
 
         // Act
-        Enrollment enrollment = new Enrollment("e1", "s1", courseId);
+        Enrollment enrollment = new Enrollment(id, studentId, courseId);
 
         // Assert
-        assertEquals("s1", enrollment.studentId());
+        assertEquals(id, enrollment.id());
+        assertEquals(studentId, enrollment.studentId());
         assertEquals(courseId, enrollment.courseId());
     }
 
     @Test
-    void expose_its_id() {
-        Enrollment enrollment = new Enrollment("e1", "s1", CourseIdMother.random());
+    void shouldFailWhenIdIsNull() {
+        // Arrange
+        StudentId studentId = StudentIdMother.random();
+        CourseId  courseId  = CourseIdMother.random();
 
-        assertEquals("e1", enrollment.id());
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> new Enrollment(null, studentId, courseId));
     }
 
     @Test
-    void fail_when_id_is_null() {
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> new Enrollment(null, "s1", CourseIdMother.random())
-        );
+    void shouldFailWhenStudentIdIsNull() {
+        // Arrange
+        EnrollmentId id       = EnrollmentIdMother.random();
+        CourseId     courseId = CourseIdMother.random();
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> new Enrollment(id, null, courseId));
     }
 
     @Test
-    void fail_when_student_id_is_blank() {
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> new Enrollment("e1", "  ", CourseIdMother.random())
-        );
+    void shouldFailWhenCourseIdIsNull() {
+        // Arrange
+        EnrollmentId id        = EnrollmentIdMother.random();
+        StudentId    studentId = StudentIdMother.random();
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> new Enrollment(id, studentId, null));
     }
 
     @Test
-    void fail_when_course_id_is_null() {
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> new Enrollment("e1", "s1", null)
-        );
+    void shouldMatchSameStudentAndSameCourse() {
+        // Arrange
+        StudentId  studentId  = StudentIdMother.random();
+        CourseId   courseId   = CourseIdMother.random();
+        Enrollment enrollment = EnrollmentMother.of(studentId, courseId);
+
+        // Act
+        boolean matches = enrollment.matches(studentId, courseId);
+
+        // Assert
+        assertTrue(matches);
     }
 
     @Test
-    void match_same_student_and_same_course() {
-        CourseId courseId = CourseIdMother.random();
-        Enrollment enrollment = new Enrollment("e1", "s1", courseId);
+    void shouldNotMatchADifferentStudent() {
+        // Arrange
+        CourseId   courseId   = CourseIdMother.random();
+        Enrollment enrollment = EnrollmentMother.of(StudentIdMother.random(), courseId);
 
-        assertTrue(enrollment.matches("s1", courseId));
+        // Act
+        boolean matches = enrollment.matches(StudentIdMother.random(), courseId);
+
+        // Assert
+        assertFalse(matches);
     }
 
     @Test
-    void not_match_a_different_student() {
-        CourseId courseId = CourseIdMother.random();
-        Enrollment enrollment = new Enrollment("e1", "s1", courseId);
+    void shouldNotMatchADifferentCourse() {
+        // Arrange
+        StudentId  studentId  = StudentIdMother.random();
+        Enrollment enrollment = EnrollmentMother.of(studentId, CourseIdMother.random());
 
-        assertFalse(enrollment.matches("s2", courseId));
+        // Act
+        boolean matches = enrollment.matches(studentId, CourseIdMother.random());
+
+        // Assert
+        assertFalse(matches);
     }
 
     @Test
-    void not_match_a_different_course() {
-        Enrollment enrollment = new Enrollment("e1", "s1", CourseIdMother.random());
+    void shouldBelongToItsStudent() {
+        // Arrange
+        StudentId  studentId  = StudentIdMother.random();
+        Enrollment enrollment = EnrollmentMother.forStudent(studentId);
 
-        assertFalse(enrollment.matches("s1", CourseIdMother.random()));
+        // Act & Assert
+        assertTrue(enrollment.belongsTo(studentId));
+        assertFalse(enrollment.belongsTo(StudentIdMother.random()));
     }
 }
