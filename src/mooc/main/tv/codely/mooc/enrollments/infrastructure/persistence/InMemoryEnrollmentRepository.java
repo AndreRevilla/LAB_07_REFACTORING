@@ -6,7 +6,6 @@ import tv.codely.mooc.students.domain.StudentId;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class InMemoryEnrollmentRepository implements EnrollmentRepository {
     private final List<Enrollment> storage = new ArrayList<>();
@@ -20,6 +19,6 @@ public final class InMemoryEnrollmentRepository implements EnrollmentRepository 
     public List<Enrollment> searchByStudent(StudentId studentId) {
         return storage.stream()
             .filter(enrollment -> enrollment.belongsTo(studentId))
-            .collect(Collectors.toList());
+            .toList();
     }
 }

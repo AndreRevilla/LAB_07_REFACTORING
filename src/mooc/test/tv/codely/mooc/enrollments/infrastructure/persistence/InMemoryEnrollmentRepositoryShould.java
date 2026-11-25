@@ -10,6 +10,7 @@ import tv.codely.mooc.students.domain.StudentIdMother;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 final class InMemoryEnrollmentRepositoryShould {
@@ -57,5 +58,16 @@ final class InMemoryEnrollmentRepositoryShould {
 
         // Assert
         assertEquals(List.of(own), result);
+    }
+
+    @Test
+    void not_expose_its_internal_storage() {
+        // Arrange
+        repository.save(EnrollmentMother.forStudent(studentId));
+        List<Enrollment> result = repository.searchByStudent(studentId);
+        Enrollment       intruder = EnrollmentMother.forStudent(studentId);
+
+        // Act & Assert
+        assertThrows(UnsupportedOperationException.class, () -> result.add(intruder));
     }
 }
