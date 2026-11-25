@@ -3,6 +3,7 @@ package tv.codely.mooc.courses_counter.domain;
 import tv.codely.mooc.courses.domain.CourseId;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public final class CoursesCounter {
     public CoursesCounter(CoursesCounterId id, CoursesCounterTotal total, List<CourseId> existingCourses) {
         this.id              = id;
         this.total           = total;
-        this.existingCourses = existingCourses;
+        this.existingCourses = new ArrayList<>(existingCourses);
     }
 
     private CoursesCounter() {
@@ -36,7 +37,7 @@ public final class CoursesCounter {
     }
 
     public List<CourseId> existingCourses() {
-        return existingCourses;
+        return Collections.unmodifiableList(existingCourses);
     }
 
     public boolean hasIncremented(CourseId id) {
@@ -44,8 +45,16 @@ public final class CoursesCounter {
     }
 
     public void increment(CourseId id) {
+        ensureIsNotCounted(id);
+
         total = total.increment();
         existingCourses.add(id);
+    }
+
+    private void ensureIsNotCounted(CourseId id) {
+        if (hasIncremented(id)) {
+            throw new CourseAlreadyCounted(id);
+        }
     }
 
     @Override
