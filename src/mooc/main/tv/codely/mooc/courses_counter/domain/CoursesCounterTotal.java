@@ -5,9 +5,11 @@ import tv.codely.shared.domain.IntValueObject;
 public final class CoursesCounterTotal extends IntValueObject {
     public CoursesCounterTotal(Integer value) {
         super(value);
+
+        ensureIsValid(value);
     }
 
-    public CoursesCounterTotal() {
+    private CoursesCounterTotal() {
         super(null);
     }
 
@@ -17,5 +19,11 @@ public final class CoursesCounterTotal extends IntValueObject {
 
     public CoursesCounterTotal increment() {
         return new CoursesCounterTotal(value() + 1);
+    }
+
+    private static void ensureIsValid(Integer value) {
+        if (value == null || value < 0) {
+            throw new IllegalArgumentException(String.format("The courses counter total <%s> must be zero or positive", value));
+        }
     }
 }
