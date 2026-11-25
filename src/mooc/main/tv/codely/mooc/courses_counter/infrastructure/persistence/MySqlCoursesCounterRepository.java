@@ -8,7 +8,6 @@ import tv.codely.mooc.courses_counter.domain.CoursesCounterRepository;
 import tv.codely.shared.domain.Service;
 import tv.codely.shared.infrastructure.hibernate.HibernateRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,8 +24,6 @@ public class MySqlCoursesCounterRepository extends HibernateRepository<CoursesCo
 
     @Override
     public Optional<CoursesCounter> search() {
-        List<CoursesCounter> coursesCounter = all();
-
-        return 0 == coursesCounter.size() ? Optional.empty() : Optional.ofNullable(coursesCounter.get(0));
+        return all().stream().findFirst();
     }
 }

@@ -8,8 +8,8 @@ import tv.codely.shared.domain.UuidGenerator;
 
 @Service
 public final class CoursesCounterIncrementer {
-    private CoursesCounterRepository repository;
-    private UuidGenerator            uuidGenerator;
+    private final CoursesCounterRepository repository;
+    private final UuidGenerator            uuidGenerator;
 
     public CoursesCounterIncrementer(CoursesCounterRepository repository, UuidGenerator uuidGenerator) {
         this.repository    = repository;
@@ -20,10 +20,11 @@ public final class CoursesCounterIncrementer {
         CoursesCounter counter = repository.search()
                                            .orElseGet(() -> CoursesCounter.initialize(uuidGenerator.generate()));
 
-        if (!counter.hasIncremented(id)) {
-            counter.increment(id);
-
-            repository.save(counter);
+        if (counter.hasIncremented(id)) {
+            return;
         }
+
+        counter.increment(id);
+        repository.save(counter);
     }
 }
