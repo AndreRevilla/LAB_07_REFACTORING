@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tv.codely.mooc.courses_counter.application.find.CoursesCounterResponse;
 import tv.codely.mooc.courses_counter.application.find.FindCoursesCounterQuery;
+import tv.codely.mooc.courses_counter.domain.CoursesCounterNotInitialized;
 import tv.codely.shared.domain.DomainError;
 import tv.codely.shared.domain.bus.command.CommandBus;
 import tv.codely.shared.domain.bus.query.QueryBus;
@@ -25,15 +26,17 @@ public final class CoursesCounterGetController extends ApiController {
 	public HashMap<String, Integer> index() throws QueryHandlerExecutionError {
 		CoursesCounterResponse response = ask(new FindCoursesCounterQuery());
 
-		return new HashMap<String, Integer>() {
-			{
-				put("total", response.total());
-			}
-		};
+		HashMap<String, Integer> body = new HashMap<>();
+		body.put("total", response.total());
+
+		return body;
 	}
 
 	@Override
 	public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
-		return null;
+		HashMap<Class<? extends DomainError>, HttpStatus> mapping = new HashMap<>();
+		mapping.put(CoursesCounterNotInitialized.class, HttpStatus.NOT_FOUND);
+
+		return mapping;
 	}
 }

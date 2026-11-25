@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final class FindCoursesCounterQueryHandlerShould extends CoursesCounterModuleUnitTestCase {
-    FindCoursesCounterQueryHandler handler;
+    private FindCoursesCounterQueryHandler handler;
 
     @BeforeEach
     protected void setUp() {
@@ -21,7 +21,7 @@ final class FindCoursesCounterQueryHandlerShould extends CoursesCounterModuleUni
     }
 
     @Test
-    void it_should_find_an_existing_courses_counter() {
+    void find_an_existing_courses_counter() {
         CoursesCounter          counter  = CoursesCounterMother.random();
         FindCoursesCounterQuery query    = new FindCoursesCounterQuery();
         CoursesCounterResponse  response = CoursesCounterResponseMother.create(counter.total().value());
@@ -32,11 +32,15 @@ final class FindCoursesCounterQueryHandlerShould extends CoursesCounterModuleUni
     }
 
     @Test
-    void it_should_throw_an_exception_when_courses_counter_does_not_exists() {
+    void throw_a_domain_error_when_the_courses_counter_does_not_exist() {
         FindCoursesCounterQuery query = new FindCoursesCounterQuery();
 
         shouldSearch();
 
-        assertThrows(CoursesCounterNotInitialized.class, () -> handler.handle(query));
+        CoursesCounterNotInitialized error = assertThrows(
+            CoursesCounterNotInitialized.class,
+            () -> handler.handle(query)
+        );
+        assertEquals("courses_counter_not_initialized", error.errorCode());
     }
 }
