@@ -18,7 +18,7 @@ import tv.codely.mooc.enrollments.domain.EnrollmentRepository;
 import tv.codely.mooc.enrollments.domain.StudentLookup;
 import tv.codely.mooc.students.domain.StudentId;
 import tv.codely.mooc.students.domain.StudentIdMother;
-import tv.codely.mooc.enrollments.domain.StudentNotExist;
+import tv.codely.mooc.students.domain.StudentNotExist;
 
 import java.util.List;
 import java.util.Optional;

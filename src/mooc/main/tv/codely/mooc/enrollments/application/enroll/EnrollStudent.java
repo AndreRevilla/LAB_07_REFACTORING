@@ -8,8 +8,8 @@ import tv.codely.mooc.enrollments.domain.EnrollmentId;
 import tv.codely.mooc.enrollments.domain.EnrollmentPolicy;
 import tv.codely.mooc.enrollments.domain.EnrollmentRepository;
 import tv.codely.mooc.enrollments.domain.StudentLookup;
-import tv.codely.mooc.enrollments.domain.StudentNotExist;
 import tv.codely.mooc.students.domain.StudentId;
+import tv.codely.mooc.students.domain.StudentNotExist;
 
 public final class EnrollStudent {
     private final CourseRepository     courseRepository;
